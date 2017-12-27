@@ -1,0 +1,98 @@
+create or replace function sch_social_group.f_obtener_pif()
+    returns setof sch_social_group.t_pif as
+$body$
+begin
+    return query
+    select *
+    from sch_social_group.t_pif
+    where ch_estado_logico='A'
+    ORDER by chv_estado;
+end;
+$body$
+    language plpgsql volatile;
+
+
+
+create or replace function sch_social_group.f_obtener_pif_dado_id(codigo_pif integer)
+    returns setof sch_social_group.t_pif as
+$body$
+begin
+    return query
+    select *
+    from sch_social_group.t_pif
+    where ch_estado_logico='A'
+        and sr_id_pif=codigo_pif
+    ORDER by chv_estado;
+end;
+$body$
+    language plpgsql volatile;
+
+
+ 
+create or replace function sch_social_group.f_insertar_pif(
+    _chv_pif character varying,
+    _chv_descripcion character varying,
+    _db_costo double precision,
+    _int_id_usuario integer)
+    returns text as
+$body$
+declare
+    msg text;
+begin
+    begin
+        insert into sch_social_group.t_pif(chv_estado,chv_descripcion,db_costo,int_id_usuario)
+        values(_chv_estado,_chv_descripcion,_db_costo,_int_id_usuario);
+        msg='Estado de cuenta registrado exitosamente.';
+    end;
+    return msg;
+end;
+$body$
+    language plpgsql volatile;
+
+
+create or replace function sch_social_group.f_actualizar_pif(_chv_pif character varying,
+                                                                       _chv_descripcion character varying,
+                                                                       _db_costo double precision,
+                                                                       _int_id_usuario integer,
+                                                                       _id_pif integer)
+    returns text as
+$body$
+declare
+    msg text;
+begin
+    begin
+        update sch_social_group.t_pif
+        set chv_pif=_chv_pif,
+            chv_descripcion=_chv_descripcion,
+            db_costo=_db_costo,
+            int_id_usuario=_int_id_usuario
+        where sr_id_pif=_id_pif;
+        msg='Estado de cuenta actualizado exitosamente.';
+    end;
+    return msg;
+end;
+$body$
+    language plpgsql volatile;
+    
+
+create or replace function sch_social_group.f_eliminar_pif(_int_id_usuario integer,
+                                                                     _id_pif integer)
+    returns text as
+$body$
+declare
+    msg text;
+begin
+    begin
+        update sch_social_group.t_pif
+        set ts_fecha_baja=now(),
+            int_id_usuario=_int_id_usuario
+        where sr_id_pif=_id_pif;
+        msg='Estado de cuenta eliminado exitosamente.';
+    end;
+    return msg;
+end;
+$body$
+    language plpgsql volatile;    
+
+
+alter table sch_social_group.t_cuenta add column chv_imagen character varying;

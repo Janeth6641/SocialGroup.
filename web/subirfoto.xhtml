@@ -1,0 +1,29 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+
+    <div class="ui-g">
+        <div class="ui-g-12">
+            <p:dialog widgetVar="statusDialog" modal="true" 
+                      draggable="false" closable="false" resizable="false" 
+                      showHeader="true" appendTo="@(body)">    
+                <center>
+                    <p:graphicImage name="#{AtributosVistas.imagenCargar}" width="130" height="130" library="resources"/>
+                    <br/>
+                    <h:outputText value="Estamos procesando su solicitud..."/>                    
+                </center>    
+            </p:dialog>                                
+            <p:ajaxStatus style="display:block;margin-bottom:2em;">
+                <f:facet name="default">
+                </f:facet>
+                <f:facet name="start">               
+                </f:facet>
+                <f:facet name="complete">      
+                </f:facet>
+            </p:ajaxStatus>        
+            <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+        </div>
+    </div>
+</ui:composition>

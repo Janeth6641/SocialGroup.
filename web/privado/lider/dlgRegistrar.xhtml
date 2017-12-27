@@ -1,0 +1,116 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <p:dialog id="dlgInsertar" widgetVar="dlgInsertar" closable="false" modal="true" resizable="true" 
+              header="Nueva Cuenta" showEffect="size" hideEffect="size">
+        <h:form id="frmInsertar">        
+            <b>Datos personales:</b>
+            <p:panelGrid columns="4" styleClass="ui-panelgrid-blank form-group">
+                <p:outputLabel value="Cédula:"/>
+                <p:inputText id="txtCedula"  value="#{ctCuentasLider.objCliente.cedula}"
+                             title="Cedula" required="true" requiredMessage="La Cédula/Pasaporte es un campo obligatorio."/> 
+
+                <p:outputLabel value="Nombres:"/>
+                <p:inputText id="txtNombres"  value="#{ctCuentasLider.objCliente.nombres}"
+                             title="Nombres" required="true" requiredMessage="Los nombres del cliente son obligatorios."
+                             /> 
+
+                <p:outputLabel value="Apellidos:"/>
+                <p:inputText id="txtApellidos"  value="#{ctCuentasLider.objCliente.apellidos}"
+                             title="Apellidos" required="true" requiredMessage="Los Apellidos del cliente son obligatorios."
+                             /> 
+                <p:outputLabel value="Fecha de Nacimiento:"/>
+                <p:calendar id="txtFechaNacimiento" value="#{ctCuentasLider.objCliente.fechaNacimiento}" 
+                            pattern="dd/MM/yyy" placeholder="dd/MM/yyyy"
+                            required="true"
+                            requiredMessage="La Cédula o Pasaorte es un campo obligatorio."
+                            showOn="button" />
+
+                <p:outputLabel value="Teléfono:"/>
+                <p:inputText id="txtTelefono"  value="#{ctCuentasLider.objCliente.telefono}"
+                             title="Teléfono"/> 
+
+                <p:outputLabel value="Celular:"/>
+                <p:inputText id="txtCelular"  value="#{ctCuentasLider.objCliente.celular}"
+                             title="Celular"/>
+
+                <p:outputLabel value="Género:"/>
+                <p:selectOneMenu id="txtGenero" 
+                                 value="#{ctCuentasLider.objCliente.genero}"
+                                 required="true"
+                                 requiredMessage="El género es un campo obligatorio.">
+                    <f:selectItem itemLabel="-- Seleccione --" itemValue="#{null}" noSelectionOption="true"/>
+                    <f:selectItem itemLabel="Masculino" itemValue="M"/>
+                    <f:selectItem itemLabel="Femenino" itemValue="F"/>                                    
+                </p:selectOneMenu>
+
+                <p:outputLabel value="Estado civil:"/>
+                <p:inputText id="txtEstCivil"  value="#{ctCuentasLider.objCliente.estadoCivil}"
+                             title="Estado Civil"/>
+
+                <p:outputLabel value="Pais:"/>
+                <p:inputText id="txtPais"  value="#{ctCuentasLider.objCliente.pais}"
+                             title="País"/>
+
+                <p:outputLabel value="Ciudad:"/>
+                <p:inputText id="txtCiudad"  value="#{ctCuentasLider.objCliente.ciudad}"
+                             title="Ciudad"/>
+
+                <p:outputLabel value="Dirección:"/>  
+                <p:inputText id="txtDireccion"  value="#{ctCuentasLider.objCliente.direccion}"
+                             title="Dirección"/>
+            </p:panelGrid>
+
+            <p:panelGrid columns="2" styleClass="ui-panelgrid-blank form-group">
+                <p:outputLabel value="Adjuntar cédula:"/>  
+                <p:fileUpload fileUploadListener="#{ctCuentasLider.cargarArchivoDocumento}"
+                              allowTypes="/(\.|\/)(pdf|doc?x|odt)$/" label="Abrir" mode="advanced"  
+                              uploadLabel="Subir" cancelLabel="Cancelar"   
+                              value="#{ctCuentasLider.archivoDocumento}"
+                              required="true" requiredMessage="Cargar Documento!!" 
+                              update="otxtCedula"/>
+                <p:outputLabel value="Nombre del documento:"/>  
+                <p:outputLabel id="otxtCedula" value="#{ctCuentasLider.nombreDocumento}"/>  
+            </p:panelGrid>
+
+            <b>Datos de la cuenta:</b>
+            <p:panelGrid columns="4" styleClass="ui-panelgrid-blank form-group">
+                <p:outputLabel value="Nick:"/>
+                <p:inputText id="txtUsuario" value="#{ctCuentasLider.objCliente.nick}"
+                             required="true"
+                             requiredMessage="El nick es un campo obligatorio."/>
+
+                <p:outputLabel value="Mail:"/>
+                <p:inputText id="txtMail" value="#{ctCuentasLider.objCliente.mail}"
+                             required="true"
+                             requiredMessage="El correo electrónico es un campo obligatorio."/>
+
+                <h:outputLabel id="opwd1" for="pwd1" value="Contraseña:" />                                
+                <p:password id="pwd1" 
+                            value="#{ctCuentasLider.objCliente.password}" 
+                            feedback="true" 
+                            inline="true" 
+                            required="true"
+                            promptLabel="Ingrese una contraseña."
+                            weakLabel="Débil"
+                            goodLabel="Aceptable"
+                            strongLabel="Fuerte"/>
+            </p:panelGrid>
+
+            <center>
+                <p:commandButton value="Guardar"
+                                 icon="ui-icon-save"
+                                 action="#{ctCuentasLider.nuevaCuenta()}" 
+                                 update="frmPrincipal:tblCuentas"/>
+                <p:commandButton value="Cancelar"                                 
+                                 onclick="PF('dlgInsertar').hide();"
+                                 process="@this"
+                                 icon="ui-icon-close"/>
+            </center> 
+        </h:form>
+    </p:dialog>
+</ui:composition>

@@ -1,0 +1,27 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <p:dialog id="dlgActivarCompra" widgetVar="dlgActivarCompra" closable="false" modal="true" resizable="true" 
+              header="Activar Compra" showEffect="size" hideEffect="size">
+        <h:form id="frmActivar"> 
+
+            <center>
+                <b>¿Está seguro que desea activar la compra?</b>
+                <br/>
+                <p:commandButton value="SI"
+                                 action="#{ctActivarCompras.activarCompra()}"
+                                 update="frmPrincipal:tblCompras,frmActivar"
+                                 icon="ui-icon-save"/>
+                <p:commandButton value="NO"
+                                 update="frmPrincipal:tblCompras"
+                                 onclick="PF('dlgActivarCompra').hide();"
+                                 process="@this"
+                                 icon="ui-icon-close"/>
+            </center> 
+        </h:form>
+    </p:dialog>
+</ui:composition>

@@ -1,0 +1,35 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <p:dialog id="dlgInsertar" widgetVar="dlgInsertar" closable="false" modal="true" resizable="true" 
+              header="Nueva Forma de Pago" showEffect="size" hideEffect="size"
+              width="25%">
+        <h:form id="frmInsertar">                     
+            <p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank form-group">
+                <p:outputLabel value="Forma de Pago"/>
+                <p:inputText value="#{ctFormaPago.objFormaPago.formaPago}"                             
+                             required="true" 
+                             requiredMessage="El nombre de forma de pago es obligatorio"/>
+                <p:outputLabel value="Descripción"/>
+                <p:inputTextarea value="#{ctFormaPago.objFormaPago.descripcion}"                             
+                             required="true" 
+                             requiredMessage="La descripción de la forma de pago es obligatorio"/>                
+            </p:panelGrid>
+            <center>
+                <p:commandButton value="Guardar"
+                                 action="#{ctFormaPago.insertarFormaPago()}"
+                                 update="frmPrincipal:tblForma,frmInsertar"
+                                 icon="ui-icon-save"/>
+                <p:commandButton value="Cancelar"
+                                 update="frmPrincipal:tblForma"
+                                 onclick="PF('dlgInsertar').hide();"
+                                 process="@this"
+                                 icon="ui-icon-close"/>
+            </center>            
+        </h:form>
+    </p:dialog>
+</ui:composition>

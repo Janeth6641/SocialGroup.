@@ -1,0 +1,27 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <p:dialog id="dlgEliminar" widgetVar="dlgEliminar" closable="false" modal="true" resizable="true" 
+              header="Eliminar Rol" showEffect="size" hideEffect="size">
+        <h:form id="frmEliminar">    
+            <center>
+                <b><h3>¿Está seguro que desea eliminar el Rol #{ctRol.rolSel.rol}?</h3></b>
+            </center>
+            <center>
+                <p:commandButton value="Aceptar"
+                                 action="#{ctRol.eliminar()}"
+                                 update="frmPrincipal:tblRoles,frmEliminar"
+                                 icon="ui-icon-save"/>
+                <p:commandButton value="Cancelar"
+                                 update="frmPrincipal:tblRoles"
+                                 onclick="PF('dlgEliminar').hide();"
+                                 process="@this"
+                                 icon="ui-icon-close"/>
+            </center>  
+        </h:form>
+    </p:dialog>
+</ui:composition>

@@ -1,0 +1,88 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"                
+                template="../../WEB-INF/template/template.xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:define name="content">
+        <h:form id="frmPrincipal">
+            <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+            <div class="ui-g">
+                <div class="ui-g-12">
+                    <div class="card">       
+                        <center><h3>Paquetes de Independencia Finaciera</h3></center>
+                        <p:dataTable id="tblPif" var="pif" value="#{ctPif.lstPif}" rows="10"
+                                     paginator="true"  emptyMessage="No se han encontrado registros" 
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="5,10,15" reflow="true" rowKey="#{pif.idPif}"
+                                     editable="true" selection="#{ctPif.pifSel}" selectionMode="single">
+                            <p:column headerText="Codigo" width="5%">
+                                <p:outputLabel value="#{pif.idPif}"/>
+                            </p:column>
+                            <p:column headerText="PIF" width="10%">
+                                <p:outputLabel value="#{pif.pif}"/>
+                            </p:column>
+                            <p:column headerText="Descripción" width="20%">
+                                <p:outputLabel value="#{pif.descripcion}"/>
+                            </p:column>
+                            <p:column headerText="Costo" width="10%">
+                                <p:outputLabel value="#{pif.costo}"/>
+                            </p:column>
+                            <p:column headerText="Fecha de registro" width="10%">
+                                <p:outputLabel value="#{pif.fechaRegistro}"/>
+                            </p:column>
+                            <p:column headerText="Usuario creador" width="10%" style="text-align: center">
+                                <p:outputLabel value="#{pif.sessionUsuario.nombres} #{pif.sessionUsuario.apellidos}"/>
+                            </p:column>
+
+                            <p:column headerText="Editar" width="5%" style="text-align: center">
+
+                                <p:commandButton icon="ui-icon-pencil"
+                                                 title="Editar"
+                                                 onclick="PF('dlgEditar').show();"
+                                                 update="frmEditar">
+                                    <f:setPropertyActionListener value="#{pif}" target="#{ctPif.pifSel}"/>
+                                </p:commandButton>
+
+                            </p:column>
+
+                            <p:column headerText="Eliminar" width="5%" style="text-align: center">
+
+                                <p:commandButton icon="ui-icon-delete-forever"
+                                                 title="Eliminar"
+                                                 onclick="PF('dlgEliminar').show();"
+                                                 update="frmEliminar">
+                                    <f:setPropertyActionListener value="#{pif}" target="#{ctPif.pifSel}"/>
+                                </p:commandButton>
+                            </p:column>
+ 
+                            <f:facet name="footer">
+                                <p:commandButton value="Nuevo"
+                                                 icon="ui-icon-add-circle"
+                                                 onclick="PF('dlgInsertar').show()"/>
+                               
+                            </f:facet>
+
+                        </p:dataTable>
+                    </div>                        
+                </div>                        
+            </div>  
+        </h:form>
+
+
+        <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+            <!--<p:graphicImage name="/demo/images/ajaxloadingbar.gif"      
+            <ui:include src="dlgEditarPif.xhtml"/>
+            <ui:include src="dlgNuevoPif.xhtml"/> <ui:include src="dlgEliminarPif.xhtml"/> 
+            />-->
+            <img src="../../resources/gifs/cargando_2.gif" alt=""/>
+        </p:dialog>
+
+
+        <ui:include src="dlgEditarPif.xhtml"/>
+        <ui:include src="dlgEliminarPif.xhtml"/> 
+        <ui:include src="dlgNuevoPif.xhtml"/>
+
+    </ui:define>
+</ui:composition>

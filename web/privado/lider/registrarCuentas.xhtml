@@ -1,0 +1,66 @@
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"                
+                template="../../WEB-INF/template/template.xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:define name="content">        
+        <div class="ui-g">
+            <div class="ui-g-12">
+                <h:form id="frmPrincipal">
+                    <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />       
+                    <p:growl id="msg" autoUpdate="true" showDetail="true"/>
+                    <center> <h3>Cuentas registradas por #{sessionScope.Datos}</h3></center>
+                    <p:dataTable id="tblCuentas" var="cuenta" value="#{ctCuentasLider.lstCuentasLider}" rows="10"
+                                 paginator="true"  emptyMessage="No se han encontrado registros" 
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="5,10,15" reflow="true" rowKey="#{cuenta.idUsuario}"
+                                 editable="true" selection="#{ctCuentasLider.cuentaSel}" selectionMode="single">
+                        <p:column headerText="Cédula/RUC/Pasaporte" width="5%">
+                            <p:outputLabel value="#{cuenta.cedula}"/>
+                        </p:column>
+
+                        <p:column headerText="Apelldios" width="10%">
+                            <p:outputLabel value="#{cuenta.apellidos}"/>
+                        </p:column>
+
+
+                        <p:column headerText="Nombres" width="10%">
+                            <p:outputLabel value="#{cuenta.nombres}"/>
+                        </p:column>
+
+                        <p:column headerText="Fecha de registro" width="5%">
+                            <p:outputLabel value="#{cuenta.fechaRegistro}"/>
+                        </p:column>
+
+                        <p:column headerText="Fecha de validacion" width="5%">
+                            <p:outputLabel value="#{cuenta.fechaValidacion}"/>
+                        </p:column>
+
+                        <p:column width="3%">
+                            <p:commandButton icon="ui-icon-assessment" title="Detalles">
+                                <f:setPropertyActionListener value="#{cuenta}" target="#{ctCuentasLider.cuentaSel}"/>
+                            </p:commandButton>
+                        </p:column>
+
+                        <f:facet name="footer">
+                            <p:commandButton value="Nuevo"
+                                             icon="ui-icon-plus"
+                                             onclick="PF('dlgInsertar').show()"
+                                             update="frmInsertar"/>
+                        </f:facet>
+                    </p:dataTable>
+                </h:form>
+            </div>                        
+        </div>  
+
+        <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+            <!--<p:graphicImage name="/demo/images/ajaxloadingbar.gif" />-->
+            <img src="../../resources/gifs/cargando_2.gif" alt=""/>
+        </p:dialog>  
+
+        <ui:include src="dlgRegistrar.xhtml"/>
+    </ui:define>
+</ui:composition>

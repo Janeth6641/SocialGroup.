@@ -1,0 +1,165 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template/template.xhtml">
+
+    <ui:define name="content">
+        <div class="ui-g">
+            <div class="ui-g-12">
+                <div class="card">
+                    <center>
+                        <h3>Perfil de usuario</h3>
+                    </center>
+                    <h:form id="frmEditarUsuario">
+                        <p:growl id="msjs" autoUpdate="true" life="10000" escape="true"></p:growl>
+                        <p:panelGrid columns="2" layout="grid" rendered="#{ctDatos.selectUsuario!= null}" styleClass="ui-panelgrid-blank form-group">
+                            <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank">
+                                <p:panel id="panelFoto" style="width: 90%">
+                                    <center>
+                                        <h:graphicImage id="idFoto" value="/cfoto?id=#{ctDatos.selectUsuario.foto}" alt="Foto" width="50%"/>
+                                    </center>
+                                    <center>
+                                        <p:commandButton id="btnCambiarF" value="Cambiar Fotografía" icon="ui-icon-pencil" update=":frmNuevaFoto" oncomplete="PF('wgNuevaFoto').show()"></p:commandButton>
+                                    </center>
+                                </p:panel>
+                            </p:panelGrid>
+                            <h:panelGrid columns="1"   >
+                                <!--
+                                <div class="ui-g-12"> 
+                                    <h:panelGroup styleClass="md-inputfield">
+                                        <p:inputText id="txtCodigoSociedad" value="#{ctDatos.selecRolUsuario.rol.rol}" 
+                                                     title="Tipo de Rol" style="width:100%"
+                                                     required="true" maxlength="10" readonly="true">
+                                            <f:validateLength maximum="10"/>
+                                        </p:inputText>
+                                        <label>Perfil</label>
+                                    </h:panelGroup> 
+                                </div>
+                                -->
+                                <div class="ui-g-12"> 
+                                    <h:panelGroup styleClass="md-inputfield">
+                                        <p:inputText id="personacedula" 
+                                                     value="#{ctDatos.selectUsuario.cedula}" 
+                                                     title="C.I. Cliente" 
+                                                     readonly="true" required="true" style="width:100%"
+                                                     requiredMessage="Ruc de la Sociedad requerido">                                 
+                                        </p:inputText> 
+                                        <label>Cédula/Pasaporte</label>
+                                    </h:panelGroup> 
+                                </div>
+                                <div class="ui-g-12"> 
+                                    <h:panelGroup styleClass="md-inputfield">
+                                        <p:inputText id="txtNombre" 
+                                                     value="#{ctDatos.selectUsuario.nombres}" 
+                                                     title="Nombres" 
+                                                     required="true" style="width:100%"
+                                                     requiredMessage="Los nombres son requeridos" onkeypress="return soloLetras(event)"
+                                                     validatorMessage="Nombres, No puede ingresar números...">                                  
+                                        </p:inputText> 
+                                        <label>Nombres</label>
+                                    </h:panelGroup> 
+                                </div>
+                                <div class="ui-g-12"> 
+                                    <h:panelGroup styleClass="md-inputfield">
+                                        <p:inputText id="txtApellidos" 
+                                                     value="#{ctDatos.selectUsuario.apellidos}" 
+                                                     title="Apellidos" 
+                                                     required="true" style="width:100%"
+                                                     requiredMessage="Los apellidos son requeridos" onkeypress="return soloLetras(event)"
+                                                     validatorMessage="Apellidos, No puede ingresar números...">                                  
+                                        </p:inputText> 
+                                        <label>Apellidos</label>
+                                    </h:panelGroup> 
+                                </div>
+
+                                <div class="ui-g-12">
+                                    <h:panelGroup styleClass="md-inputfield">
+                                        <p:inputText id="personacelular" 
+                                                     value="#{ctDatos.selectUsuario.celular}" 
+                                                     title="Celular" required="true" 
+                                                     requiredMessage="El Celular es requerido!" maxlength="10" onkeypress="return validar(event)"
+                                                     validatorMessage="Celular, Debe ingresar mínimo 10 dígitos.">
+                                            <f:validateLength minimum="10"/>
+                                        </p:inputText>
+                                        <label>Celular</label>
+                                    </h:panelGroup>
+                                </div> 
+                                <div class="ui-g-12">
+                                    <h:panelGroup styleClass="md-inputfield">
+                                        <p:inputText id="personaTelefono" 
+                                                     value="#{ctDatos.selectUsuario.telefono}" 
+                                                     title="Teléfono" required="true" 
+                                                     requiredMessage="El Teléfono es requerido!" maxlength="10" onkeypress="return validar(event)"
+                                                     validatorMessage="Teléfono, Debe ingresar mínimo 10 dígitos.">
+                                            <f:validateLength minimum="10"/>
+                                        </p:inputText>
+                                        <label>Teléfono</label>
+                                    </h:panelGroup>
+
+
+                                </div> 
+                                <div class="ui-g-12"> 
+                                    <h:panelGroup styleClass="md-inputfield">
+                                        <p:inputText id="txtCiudad" 
+                                                     value="#{ctDatos.selectUsuario.ciudad}" 
+                                                     title="Ciudad" style="width:100%"
+                                                     required="true" 
+                                                     requiredMessage="Ingrese la Ciudad de residencia">
+                                        </p:inputText>
+                                        <label>Ciudad</label>
+                                    </h:panelGroup> 
+                                </div>
+                                <div class="ui-g-12"> 
+                                    <h:panelGroup styleClass="md-inputfield">
+                                        <p:inputText id="txtDireccion" 
+                                                     value="#{ctDatos.selectUsuario.direccion}" 
+                                                     title="Dirección" style="width:100%"
+                                                     required="true" 
+                                                     requiredMessage="Ingrese la dirección Domiciliaria">
+                                        </p:inputText>
+                                        <label>Dirección Domiciliaria</label>
+                                    </h:panelGroup> 
+                                </div>
+
+
+
+                                <div class="ui-g-12"> 
+                                    <h:panelGroup styleClass="md-inputfield">
+                                        <p:inputText  id="personacorreo" value="#{ctDatos.selectUsuario.mail}" title="Correo Electrónico" required="true" 
+                                                      requiredMessage="El Correo Electrónico es requerido!" 
+                                                      validatorMessage="Correo Electrónico, formato inválido. Ejm: info@info.com">
+                                            <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+                                        </p:inputText>
+                                        <label >* Correo Electrónico</label>
+                                    </h:panelGroup>
+                                </div>
+                                <center>
+                                    <h:panelGrid columns="2">
+                                        <p:commandButton actionListener="#{ctDatos.actualizarDatosUsuarioPerfil()}" value="Guardar" update="msjs" 
+                                                         onclick="PF('dialogEditSociedad').hide()"  icon="ui-icon-check" />
+                                        <p:commandButton value="Cancelar"  onclick="PF('dialogEditSociedad').hide()" type="reset" icon="ui-icon-closethick" />
+                                    </h:panelGrid>
+                                </center>
+                            </h:panelGrid>
+                        </p:panelGrid>
+                    </h:form>
+
+                    <h:form id="frmNuevaFoto">
+                        <p:dialog header="Nuevo Foto de Perfil" widgetVar="wgNuevaFoto" resizable="false" id="dlgNuevo"  
+                                  showEffect="fade" hideEffect="clip" modal="true">  
+                            <h:panelGrid id="pgNuevo" columns="2" cellpadding="4" style="margin:0 auto;">
+                                <p:fileUpload fileUploadListener="#{ctSubirFoto.actualizarFotoPerfil}" mode="advanced"  dragDropSupport="true" process="@this"
+                                              multiple="false"   label="Seleccione" uploadLabel="Subir" cancelLabel="Cancelar"  required="true" fileLimit="1" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" update=":frmEditarUsuario:msjs"  onstart="PF('wgNuevaFoto').hide()" oncomplete="setTimeout('javascript:location.reload()',2000)" >
+                                </p:fileUpload>
+                            </h:panelGrid>  
+                        </p:dialog>  
+                    </h:form>
+                </div>      
+            </div>
+        </div>    
+    </ui:define>
+</ui:composition>
+
+

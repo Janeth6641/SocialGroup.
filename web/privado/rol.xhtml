@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pu="http://primefaces.org/ultima">
+
+    <h:head>
+        <f:facet name="first">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+            <meta name="apple-mobile-web-app-capable" content="yes" />
+        </f:facet>        
+        <h:outputScript name="js/nanoscroller.js" library="ultima-layout" />
+        <h:outputScript name="js/layout.js" library="ultima-layout" />
+        <h:outputScript name="js/ripple.js" library="ultima-layout" />
+        <h:outputScript name="js/swipe.js" library="ultima-layout" />     
+        <script src="resources/js/funcionesUI.js" type="text/javascript"></script>        
+    </h:head>
+
+
+    <h:body  styleClass="main-body #{guestPreferences.compact ? 'layout-compact' : null}" onload="nobackbutton();">
+
+        <div class="layout-wrapper #{guestPreferences.menuLayout}">
+            <ui:include src="topRol.xhtml" />
+
+            <div class="nano">
+                <div class="nano-content menu-scroll-content">
+                    <pu:menu widgetVar="me">
+                    </pu:menu>
+                </div>
+            </div>
+
+            <div style="margin-top: 50px">
+                <br/>
+                <span class="overview-detail">Bienvenido: <b> #{sessionScope.Datos} </b></span>
+                <br/>
+
+                <div class="ui-g dashboard fadeInDown animated">
+                    <div class="ui-g-12">
+                        <h:form id="frmRoles">
+                            <p:growl id="msj"  life="10000" autoUpdate="true"/>                            
+                            <ui:repeat  value="#{ctSelectRol.lstRoles}" var="rol" varStatus="status">                                
+                                <div class="ui-g-12 ui-md-6 ui-lg-3">
+                                    <div class="ui-g card colorbox colorbox-6 fadeInDown animated" style="height: 120px">
+                                        <div class="ui-g-4">    
+                                            <!--
+                                            <p:graphicImage id="griPrevisualizar" value="#{rol.rol.icono}" 
+                                                            width="85%"/>-->
+                                            <img src="../resources/imagenes/excel.png" alt=""/>
+                                        </div>
+
+                                        <div class="ui-g-8">   
+                                            <b><span>#{rol.rol.rol}</span></b>
+                                            <p>
+                                                <h:outputLabel value="#{rol.rol.descripcion}"/>
+                                                <br/><br/>
+                                                <p:commandButton value="Seleccionar"
+                                                                 action="#{ctLogin.loginRol()}">
+                                                    <f:setPropertyActionListener value="#{rol}" target="#{ctLogin.rolUsuarioSel}"/>
+                                                </p:commandButton>                                                                 
+                                            </p>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </ui:repeat>
+                        </h:form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h:outputStylesheet name="css/nanoscroller.css" library="ultima-layout" />
+        <h:outputStylesheet name="css/animate.css" library="ultima-layout" />
+        <h:outputStylesheet name="css/ripple.css" library="ultima-layout" />        
+        <h:outputStylesheet name="css/layout-yelou.css" library="ultima-layout" />    
+        <h:outputStylesheet name="css/layout-blue.css" library="ultima-layout" />   
+    </h:body>
+</html>

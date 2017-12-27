@@ -1,0 +1,86 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"                
+                template="../../WEB-INF/template/template.xhtml" 
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:define name="content">
+        <h:form id="frmPrincipal">
+            <div class="ui-g">
+                <div class="ui-g-12">
+                    <div class="card">  
+                        <center><h3>Gestión de Roles</h3></center>
+                        <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />                                                                        
+                        <p:dataTable id="tblRoles" var="rol" value="#{ctRol.lstRoles}" rows="10"
+                                     paginator="true"  emptyMessage="No se han encontrado registros" 
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="15,20,25,30" reflow="true"
+                                     rowKey="#{rol.idRol}" selectionMode="single" selection="#{ctRol.rolSel}">
+                            <p:column headerText="Código" width="5%" style="text-align: center">
+                                <h:outputText value="#{rol.idRol}"/>
+                            </p:column>
+                            <p:column headerText="Nombre" width="10%" style="text-align: center"
+                                      filterBy="#{rol.rol}"  filterMatchMode="contains">
+                                <h:outputText value="#{rol.rol}"/>
+                            </p:column>
+                            <p:column headerText="Descripción" width="15%" style="text-align: center"
+                                      filterBy="#{rol.descripcion}"  filterMatchMode="contains">
+                                <h:outputText value="#{rol.descripcion}"/>
+                            </p:column>
+
+                            <p:column headerText="Imagen" width="10%" style="text-align: center">
+                                <p:lightBox styleClass="imagebox" >  
+                                    <h:outputLink value="../..#{rol.icono}" title="#{rol.rol}">  
+                                        <p:graphicImage value="#{rol.icono}" width="80" title="#{rol.rol}"/>
+                                    </h:outputLink>
+                                </p:lightBox>
+                            </p:column>
+
+                            <p:column headerText="Fecha de creación" width="10%" style="text-align: center">
+                                <h:outputText value="#{rol.fechaRegistro}"/>
+                            </p:column>
+
+                            <p:column headerText="Usuario del sistema" width="10%" style="text-align: center">
+                                <h:outputText value="#{rol.sessionUsuario.nombres} #{rol.sessionUsuario.apellidos}"/>
+                            </p:column>
+
+                            <p:column headerText="Editar" width="5%" style="text-align: center">
+                                <p:commandButton icon="ui-icon-pencil"
+                                                 title="Editar"
+                                                 onclick="PF('dlgEditar').show();"
+                                                 update="frmEditar">
+                                    <f:setPropertyActionListener value="#{rol}" target="#{ctRol.rolSel}"/>
+                                </p:commandButton>
+                            </p:column>
+
+                            <p:column headerText="Eliminar" width="5%" style="text-align: center">
+                                <p:commandButton icon="ui-icon-delete-forever"
+                                                 title="Eliminar"
+                                                 onclick="PF('dlgEliminar').show();"
+                                                 update="frmEliminar">
+                                    <f:setPropertyActionListener value="#{rol}" target="#{ctRol.rolSel}"/>
+                                </p:commandButton>
+                            </p:column>
+
+                            <f:facet name="footer">
+                                <p:commandButton value="Nuevo"
+                                                 icon="ui-icon-add-circle"
+                                                 onclick="PF('dlgInsertar').show()"/>
+                            </f:facet>
+                        </p:dataTable>
+                    </div>                        
+                </div>                        
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+            <!--<p:graphicImage name="/demo/images/ajaxloadingbar.gif" />-->
+            <img src="../../resources/gifs/cargando_2.gif" alt=""/>
+        </p:dialog>
+
+        <ui:include src="dlgNuevoRol.xhtml"/>  
+        <ui:include src="dlgEditarRol.xhtml"/>  
+        <ui:include src="dlgEliminarRol.xhtml"/>  
+    </ui:define>
+</ui:composition>

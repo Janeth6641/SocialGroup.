@@ -1,0 +1,35 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <p:dialog id="dlgComprarIniciador" widgetVar="dlgComprarIniciador" closable="false" modal="true" resizable="true" 
+              header="Efectuar compra" showEffect="size" hideEffect="size">
+
+        <h:form id="frmComprarIniciador">    
+
+            <p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank form-group">
+                <p:outputLabel value="Forma de pago:"/>
+                <p:selectOneMenu id="formaPago" value="#{ctComprarPif.idFormaPago}">
+                    <f:selectItem itemLabel="-- Seleccionar --" itemValue="#{null}" noSelectionOption="true"/>
+                    <f:selectItems value="#{ctComprarPif.lstFormasPago}" var="formaPago"
+                                   itemLabel="#{formaPago.formaPago}" itemValue="#{formaPago.idFormaPago}"/>
+                </p:selectOneMenu>
+            </p:panelGrid>
+
+
+            <p:commandButton value="Aceptar"
+                             action="#{ctComprarPif.comprarPifIniciador()}"
+                             update="frmIndexComprar"
+                             icon="ui-icon-save"/>
+            <p:commandButton value="Cancelar"
+                             update="frmIndexComprar"
+                             onclick="PF('dlgComprarIniciador').hide();"
+                             process="@this"
+                             icon="ui-icon-close"/>
+            </center>  
+        </h:form>
+    </p:dialog>
+</ui:composition>

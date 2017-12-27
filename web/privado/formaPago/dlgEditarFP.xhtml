@@ -1,0 +1,31 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+    <p:dialog id="dlgEditarFP" widgetVar="dlgEditarFP" modal="true" resizable="false" 
+              appendTo="@(body)" header="Editar datos" showEffect="size" hideEffect="size" style="width: 800px">
+        <h:form id="frmEditarFP">
+            
+            <h:outputText value="#{AtributosVistas.asterico}"/>            
+            <p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank form-group">
+
+                <p:outputLabel value="* Tipo de Forma de Pago" />
+                <p:inputText id="txtForma"  value="#{ctFormaPago.formaPagoSel.formaPago}"  title="Forma de Pago" required="true" 
+                             requiredMessage="Ingrese el Nombre de la Forma de Pago" type="text"/>
+                <p:outputLabel value="* Descripción:" />
+                <p:inputText id="txtDescripcion"  value="#{ctFormaPago.formaPagoSel.descripcion}"  title="Descripción de la Forma de Pago" required="true" 
+                             requiredMessage="Ingrese una descripción de la Forma de Pago, el campo es obligatorio." type="text"/>
+                    
+               </p:panelGrid>
+            
+            <center>                       
+                <p:commandButton actionListener="#{ctFormaPago.editarFormaPago()}"  value="Guardar" 
+                                 update=":frmPrincipal:tblForma,:frmEditarFP"
+                                 icon="ui-icon-check" />
+                <p:commandButton value="Cancelar"  onclick="PF('dlgEditarFP').hide()" type="reset" icon="ui-icon-closethick"/>
+            </center>
+                
+        </h:form>
+    </p:dialog>
+</ui:composition>

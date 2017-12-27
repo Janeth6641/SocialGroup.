@@ -1,0 +1,84 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+
+    <f:metadata>
+       <!--<f:viewAction action="#{ctLogin.token()}" />-->
+    </f:metadata> 
+
+    <h:form id="frmSinReferido" style="width: 100%">
+
+        <p:carousel value="#{ctComprarPif.lstPifs}" 
+                    var="pif"
+                    numVisible="3" effect="easeInStrong" headerText="Paquetes de independecia financiera" style="margin-bottom:0">
+
+            <h:panelGrid columns="2" style="width:100%" columnClasses="label,value">                               
+                <p:lightBox id="lightPif" styleClass="imagebox" >  
+                    <h:outputLink value="../..#{pif.foto}" title="#{pif.pif}">  
+                        <p:graphicImage value="#{pif.foto}" width="80" title="#{pif.pif}"/>
+                    </h:outputLink>
+                </p:lightBox>
+
+                <p:panel style="border: none">
+                    <b>#{pif.pif}</b>
+                    <p>
+                        <b>Descripción:</b> 
+                        #{pif.descripcion}
+                    </p>   
+                    <b>Costo: #{pif.costo} USD</b>
+                </p:panel>                             
+            </h:panelGrid>
+            <center>
+                <!--
+                <p:commandButton icon="ui-icon-info"
+                                 title="Información"
+                                 value="Información"/>
+                -->
+                <p:commandButton icon="ui-icon-local-grocery-store"
+                                 title="Comprar"
+                                 value="Comprar"
+                                 onclick="PF('dlgComprarIniciador').show()"
+                                 update="frmComprarIniciador">
+                    <f:setPropertyActionListener value="#{pif}" target="#{ctComprarPif.pifSel}"/>
+                </p:commandButton>
+            </center>
+        </p:carousel>
+
+
+    </h:form>
+
+
+    <p:dialog id="dlgComprarIniciador" widgetVar="dlgComprarIniciador" closable="false" modal="true" resizable="true" 
+              header="Efectuar compra" showEffect="size" hideEffect="size" >
+
+        <h:form id="frmComprarIniciador">    
+
+            <center>
+                <p:panelGrid columns="2" styleClass="ui-panelgrid-blank form-group">
+                    <p:outputLabel value="Forma de pago:"/>
+                    <p:selectOneMenu id="formaPago" value="#{ctComprarPif.idFormaPago}">
+                        <f:selectItem itemLabel="-- Seleccionar --" itemValue="#{null}" noSelectionOption="true"/>
+                        <f:selectItems value="#{ctComprarPif.lstFormasPago}" var="formaPago"
+                                       itemLabel="#{formaPago.formaPago}" itemValue="#{formaPago.idFormaPago}"/>
+                    </p:selectOneMenu>
+                </p:panelGrid>
+
+                <br/>
+
+                <p:commandButton value="Aceptar"
+                                 action="#{ctComprarPif.comprarPifIniciador()}"
+                                 update="frmIndexComprar"
+                                 icon="ui-icon-save"/>
+                <p:commandButton value="Cancelar"
+                                 update="frmIndexComprar"
+                                 onclick="PF('dlgComprarIniciador').hide();"
+                                 process="@this"
+                                 icon="ui-icon-close"/>  
+            </center>
+
+        </h:form>
+    </p:dialog>
+
+</ui:composition>

@@ -1,0 +1,69 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"                
+                template="../../WEB-INF/template/template.xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:define name="content">
+        <h:form id="frmPrincipal">
+            <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+            <div class="ui-g">
+                <div class="ui-g-12">
+                    <div class="card">       
+                        <center><h3>Solicitudes</h3></center>
+                        <p:dataTable id="tblSolicitudes" var="cliente" value="#{ctActvarCuentas.lstClientes}" rows="10"
+                                     paginator="true"  emptyMessage="No tiene solicitudes pendientes." 
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="5,10,15" reflow="true" rowKey="#{cliente.idUsuario}"
+                                     selection="#{ctActvarCuentas.objCliente}" selectionMode="single">
+
+                            <p:column headerText="Cédula" width="5%">
+                                <p:outputLabel value="#{cliente.cedula}"/>
+                            </p:column>
+                            <p:column headerText="Nombres" width="10%">
+                                <p:outputLabel value="#{cliente.nombres}"/>
+                            </p:column>
+                            <p:column headerText="Apellidos" width="10%">
+                                <p:outputLabel value="#{cliente.apellidos}"/>
+                            </p:column>
+                            <p:column headerText="Fecha de registro" width="10%">
+                                <p:outputLabel value="#{cliente.fechaRegistro}"/>
+                            </p:column>
+
+                            <p:column headerText="Previsualización" width="15%" style="text-align: center">
+                                <p:lightBox >  
+                                    <h:outputLink value="#" title="#{cliente.pathCedula}">  
+                                        <h:outputText value="#{cliente.pathCedula}"/>
+                                    </h:outputLink>
+                                    <f:facet name="inline">
+                                        <p:media value="#{cliente.pathCedula}" height="600" width="800" />                  
+                                    </f:facet>
+                                </p:lightBox>
+                            </p:column>
+                            
+                            
+
+                            <p:column headerText="Previsualización" width="5%" style="text-align: center">
+                                <p:commandButton icon="ui-icon-pencil"
+                                                 onclick="PF('dlgActivarCuenta').show();"
+                                                 update="frmActivar">
+                                    <f:setPropertyActionListener value="#{cliente}" target="#{ctActvarCuentas.objCliente}"/>
+                                </p:commandButton>
+                            </p:column>
+
+                        </p:dataTable>
+                    </div>                        
+                </div>                        
+            </div>  
+        </h:form>
+
+
+        <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+            <!--<p:graphicImage name="/demo/images/ajaxloadingbar.gif" />-->
+            <img src="../../resources/gifs/cargando_2.gif" alt=""/>
+        </p:dialog>
+
+        <ui:include src="dlgActivarCuenta.xhtml"/> 
+    </ui:define>
+</ui:composition>

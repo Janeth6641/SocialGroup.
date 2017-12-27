@@ -1,0 +1,27 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <p:dialog id="dlgEliminar" widgetVar="dlgEliminar" closable="false" modal="true" resizable="true" 
+              header="Eliminar estado de cuenta" showEffect="size" hideEffect="size">
+        <h:form id="frmEliminar">    
+            <center>
+                <b><h3>¿Está seguro que desea eliminar el estado de cuenta #{ctEstadoCuenta.estadoCuentaSel.estado}?</h3></b>
+            </center>
+            <center>
+                <p:commandButton value="Aceptar"
+                                 action="#{ctEstadoCuenta.eliminarEstadoCuenta()}"
+                                 update="frmPrincipal:tblEstados,frmEliminar"
+                                 icon="ui-icon-save"/>
+                <p:commandButton value="Cancelar"
+                                 update="frmPrincipal:tblEstados"
+                                 onclick="PF('dlgEliminar').hide();"
+                                 process="@this"
+                                 icon="ui-icon-close"/>
+            </center>  
+        </h:form>
+    </p:dialog>
+</ui:composition>

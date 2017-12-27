@@ -1,0 +1,53 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <p:dialog id="dlgInsertar" widgetVar="dlgInsertar" closable="false" modal="true" resizable="true" 
+              header="Nuevo Plan de Comisiones para un PIF" showEffect="size" hideEffect="size"
+              width="25%">
+        <h:form id="frmInsertar">                     
+            <p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank form-group">
+                <p:outputLabel value="PIF"/>
+                <p:selectOneMenu id="pif" value="#{ctPlanComisiones.idPif}" >
+                    <f:selectItem  itemLabel="-- Seleccionar --" itemValue="#{null}" noSelectionOption="false"/>
+                    <f:selectItems value="#{ctPlanComisiones.lstPifs}" var="pif" 
+                                   itemLabel="#{pif.pif}" itemValue="#{pif.idPif}"/>
+                    
+                   
+                </p:selectOneMenu>
+                <p:outputLabel value="Valor Comisión Directa"/>
+                <p:inputText value="#{ctPlanComisiones.objPlanCom.comisionDirecta}"                                                       
+                             required="true" maxlength="100" 
+                             requiredMessage="El valor de la Comisión Directa es obligatorio"/>
+                <p:outputLabel value="Valor Comisión Indirecta"/>
+                <p:inputTextarea value="#{ctPlanComisiones.objPlanCom.comisionIndirecta}"                             
+                                 required="true" maxlength="100" 
+                                 requiredMessage="El valor de la Comisión Indirecta es obligatorio"/>                
+                <p:outputLabel value="Valor Comisión por Recategorización"/>
+                <p:inputTextarea value="#{ctPlanComisiones.objPlanCom.comisionRecategoria}"                             
+                                 required="true" maxlength="100" 
+                                 requiredMessage="El valor de la Comisión por Recategorización es obligatorio"/>
+                <p:outputLabel value="Descripción"/>
+                <p:inputTextarea value="#{ctPlanComisiones.objPlanCom.observaciones}"                             
+                                 required="false" 
+                                 requiredMessage="Ingrese una Descripcion "/>                
+                <p:outputLabel value="Descripa el nuevo plan de Comisión"/>
+                
+            </p:panelGrid>
+            <center>
+                <p:commandButton value="Guardar"
+                                 action="#{ctPlanComisiones.insertarPlanComisiones}"
+                                 update="frmPrincipal:tblPlanCom,frmInsertar"
+                                 icon="ui-icon-save"/>
+                <p:commandButton value="Cancelar"
+                                 update="frmPrincipal:tblPlanCom"
+                                 onclick="PF('dlgInsertar').hide();"
+                                 process="@this"
+                                 icon="ui-icon-close"/>
+            </center>            
+        </h:form>
+    </p:dialog>
+</ui:composition>

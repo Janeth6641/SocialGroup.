@@ -1,0 +1,141 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"                
+                template="../../WEB-INF/template/template.xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <ui:define name="content">
+        <h:form id="frmPrincipal">
+            <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+            <div class="ui-g">
+                <div class="ui-g-12">
+                    <div class="card">
+                        <h:form id="frmListaUsuario" style="width: 100%">
+                            <p:growl id="msjs" life="3000" autoUpdate="true"/>
+                            <center>
+                                <p:panel id="listaUsuario" header="Listado de usuario registrados" >
+                                    <!--
+                                    <p:commandButton icon="ui-icon-plus" 
+                                                     update=":frmNuevoUsuario"
+                                                     value="registrar Nuevo Usuario" 
+                                                     onclick="PF('dialogoNuevoUsuario').show()" 
+                                                     />
+                                    -->
+                                    <br></br>
+                                    <p:spacer width="10" height="10" />
+                                    <p:dataTable id="tblUsuario" 
+                                                 value="#{ctUsuario.lstUsuario}"  
+                                                 var="usuario"
+                                                 selectionMode="single"
+                                                 paginator="true" 
+                                                 rowKey="#{usuario.idUsuario}" 
+                                                 rows="5" 
+                                                 rowsPerPageTemplate="5,10,15,20"   reflow="true" >
+
+                                        <p:column filterBy="#{usuario.cedula}" filterMatchMode="startsWith" >
+                                            <f:facet name="header">
+                                                <h:outputText value="Buscar Cèdula"></h:outputText>
+                                            </f:facet>
+                                            <h:outputText value="#{usuario.cedula}"></h:outputText>
+                                        </p:column>
+
+                                        <p:column filterBy="#{usuario.apellidos}" filterMatchMode="startsWith" >
+                                            <f:facet name="header">
+                                                <h:outputText value="Buscar por Apellidos"></h:outputText>
+                                            </f:facet>
+                                            <h:outputText value="#{usuario.apellidos}"></h:outputText>
+                                        </p:column>
+
+                                        <p:column filterBy="#{usuario.nombres}" filterMatchMode="startsWith">  
+                                            <f:facet name="header">
+                                                <h:outputText value="Nombres
+
+                                                              ">
+                                                </h:outputText>
+                                            </f:facet>
+                                            <h:outputText value="#{usuario.celular}"></h:outputText>
+                                        </p:column>
+
+                                        <p:column>  
+                                            <f:facet name="header">
+                                                <h:outputText value="Marca">
+                                                </h:outputText>
+                                            </f:facet>
+                                            <h:outputText value="#{usuario.celular}"></h:outputText>
+                                        </p:column>
+                                        <p:column>  
+                                            <f:facet name="header">
+                                                <h:outputText value=" Año de Fabricación">
+                                                </h:outputText>
+                                            </f:facet>
+                                            <h:outputText value="#{usuario.celular}"></h:outputText>
+                                        </p:column>
+                                        <p:column>  
+                                            <f:facet name="header">
+                                                <h:outputText value=" Fecha de Ingreso ">
+                                                </h:outputText>
+                                            </f:facet>
+                                            <h:outputText value="#{usuario.celular}"></h:outputText>
+                                        </p:column>
+                                        <!--
+                                                                        <p:column width="6%">
+                                                                            <f:facet name="header">
+                                                                                <h:outputText value="Ver Más"/>
+                                                                            </f:facet>   
+                                                                            <p:commandButton icon="ui-icon-search" 
+                                                                                             title="Ver más" 
+                                                                                             update=":frmVerMas" 
+                                                                                             onclick="PF('dialogVerMas').show()"
+                                                                                             >
+                                                                                <f:setPropertyActionListener value="#{unidadtransporte}" 
+                                                                                                             target="#{cunidadTransporte.selUnidadTransporte}"/>
+                                                                            </p:commandButton>
+                                                                        </p:column>
+                                                                        <p:column width="8%" >
+                                                                            <f:facet name="header">
+                                                                                <h:outputText value="Editar"/>
+                                                                            </f:facet>
+                                                                            <p:commandButton icon="ui-icon-pencil" 
+                                                                                             title="Editar" 
+                                                                                             update=":frmEditarBus"
+                                                                                             onclick="PF('wgEditarBus').show()"
+                                                                                             >
+                                                                                <f:setPropertyActionListener value="#{unidadtransporte}" 
+                                                                                                             target="#{cunidadTransporte.selUnidadTransporte}"/>
+                                                                            </p:commandButton>
+                                                                        </p:column>
+                                        
+                                                                        <p:column width= "9%">
+                                                                            <f:facet name="header">
+                                                                                <h:outputText value="Dar de baja"/>
+                                                                            </f:facet>
+                                                                            <center>
+                                                                                <p:commandButton icon="ui-icon-power-settings-new" 
+                                                                                                 title="Desactivar" 
+                                                                                                 update=":frmEliminarBus" 
+                                                                                                 onclick="PF('wgEliminarBus').show()"
+                                                                                                 >
+                                                                                    <f:setPropertyActionListener value="#{unidadtransporte}" 
+                                                                                                                 target="#{cunidadTransporte.selUnidadTransporte}"/>
+                                                                                </p:commandButton>
+                                                                            </center>
+                                                                        </p:column>
+                                        -->
+                                    </p:dataTable>
+                                </p:panel>
+                            </center>
+                        </h:form>
+                    </div>
+                </div>
+            </div>
+        </h:form>
+        <!--
+            <ui:include src="vFrmNuevaUT.xhtml"/> 
+            <ui:include src="vFrmDesactivarUT.xhtml"/>
+            <ui:include src="vFrmVerMasUT.xhtml"/>
+            <ui:include src="vFrmEditarUT.xhtml"/>
+        -->
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,19 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+    <f:metadata>
+       <!--<f:viewAction action="#{ctLogin.token()}" />-->
+    </f:metadata> 
+
+    <h:form id="frmConReferido" style="width: 100%">
+        <center>
+            <p:panelGrid columns="3" styleClass="ui-panelgrid-blank form-group">
+                <p:outputLabel value="Codigo Referido:"/>
+                <p:inputText value="#{ctComprarPif.codigoReferido}"/>
+                <p:commandButton value="Buscar"/>
+            </p:panelGrid>
+        </center>
+    </h:form>
+</ui:composition>

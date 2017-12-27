@@ -1,0 +1,85 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"                
+                template="../../WEB-INF/template/template.xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:define name="content">
+        <h:form id="frmPrincipal">
+            <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+            <div class="ui-g">
+                <div class="ui-g-12">
+                    <div class="card">       
+                        <center><h3>Plan de Comisiones para los PIF</h3></center>
+                        <p:dataTable id="tblPlanCom" var="plan" value="#{ctPlanComisiones.lstPlanCom}" rows="10"
+                                     paginator="true"  emptyMessage="No se han encontrado registros" 
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="5,10,15" reflow="true" rowKey="#{plan.idPlanComsion}"
+                                     editable="true" selection="#{ctPlanComisiones.planComSel}" selectionMode="single">
+                            <p:column headerText="Codigo" width="5%">
+                                <p:outputLabel value="#{plan.idPlanComsion}"/>
+                            </p:column>
+                            <p:column headerText="Nombre PIF" width="10%">
+                                <p:outputLabel value="#{plan.pif.pif}"/>
+                            </p:column>
+                            <p:column headerText="Comisión Directa" width="10%">
+                                <p:outputLabel value="#{plan.comisionDirecta}"/>
+                            </p:column>
+                            <p:column headerText="Comisión Indirecta" width="10%">
+                                <p:outputLabel value="#{plan.comisionIndirecta}"/>
+                            </p:column>
+                            <p:column headerText="Comisión Recategorización" width="10%">
+                                <p:outputLabel value="#{plan.comisionRecategoria}"/>
+                            </p:column>
+                            <p:column headerText="Detalles" width="15%">
+                                <p:outputLabel value="#{plan.observaciones}"/>
+                            </p:column>
+                            <p:column headerText="Usuario creador" width="10%" style="text-align: center">
+                                <p:outputLabel value="#{plan.sessionUsuario.nombres} #{plan.sessionUsuario.apellidos}"/>
+                            </p:column>
+                            <p:column headerText="Editar" width="5%" style="text-align: center">
+
+                                <p:commandButton icon="ui-icon-pencil"
+                                                 title="Editar"
+                                                 onclick="PF('dlgEditar').show();"
+                                                 update="frmEditar">
+                                    <f:setPropertyActionListener value="#{plan}" target="#{ctPlanComisiones.planComSel}"/>
+                                </p:commandButton>
+                            </p:column>
+                            <p:column headerText="Eliminar" width="5%" style="text-align: center">
+
+                                <p:commandButton icon="ui-icon-delete-forever"
+                                                 title="Eliminar"
+                                                 onclick="PF('dlgEliminar').show();"
+                                                 update="frmEliminar">
+                                    <f:setPropertyActionListener value="#{plan}" target="#{ctPlanComisiones.planComSel}"/>
+                                </p:commandButton>
+                            </p:column>
+                            <f:facet name="footer">
+                                <p:commandButton value="Nuevo"
+                                                 icon="ui-icon-add-circle"
+                                                 onclick="PF('dlgInsertar').show()"/>
+                            </f:facet>
+                        </p:dataTable>
+                    </div>                        
+                </div>                        
+            </div>  
+        </h:form>
+
+
+        <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+            <!--<p:graphicImage name="/demo/images/ajaxloadingbar.gif"      
+            <ui:include src="dlgEditarPif.xhtml"/>
+            <ui:include src="dlgNuevoPif.xhtml"/> <ui:include src="dlgEliminarPif.xhtml"/> 
+            />-->
+            <img src="../../resources/gifs/cargando_2.gif" alt=""/>
+        </p:dialog>
+
+
+        <ui:include src="dlgEditarPlanC.xhtml"/>
+        <ui:include src="dlgEliminarPlanC.xhtml"/> 
+        <ui:include src="dlgNuevoPlanC.xhtml"/>
+
+    </ui:define>
+</ui:composition>

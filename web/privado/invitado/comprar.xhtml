@@ -1,0 +1,70 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"                
+                template="../../WEB-INF/template/template.xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:define name="content">        
+        <div class="ui-g">
+            <div class="ui-g-12">
+
+                <c:choose>
+                    <c:when  test="#{sessionScope.validado == 'S'}">
+                        <div class="card"> 
+                            <p:growl id="msjs" life="3000" autoUpdate="true" showDetail="true"/>                    
+                            <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+                            <h:form id="frmIndexComprar">
+                                <center>
+                                    <b>Comprar Paquetes de Independencia Financiera</b>
+                                    <br/>
+                                    <p:selectOneMenu id="idFiltro" value="#{ctComprarPif.bnd}">
+                                        <f:selectItem itemLabel="-- Seleccionar --" itemValue="#{null}" noSelectionOption="true"/>
+                                        <f:selectItem itemLabel="Mediante referido" itemValue="1"/>
+                                        <f:selectItem itemLabel="Ser iniciador" itemValue="2" />
+                                        <p:ajax event="change" process="@this" update="pnlReferido,pnlIniciador"/>
+                                    </p:selectOneMenu>                            
+                                </center>
+                            </h:form>
+                            <br/>
+                            <p:panel id="pnlReferido" visible="#{ctComprarPif.bnd==1}" 
+                                     style="border: none"
+                                     header="Comprar mediante Código de Referido">
+                                <ui:include src="frmComprarConReferido.xhtml"/>
+                            </p:panel>
+
+                            <p:panel id="pnlIniciador" 
+                                     visible="#{ctComprarPif.bnd==2}" 
+                                     style="border: none">
+                                <ui:include src="frmComprarSinReferido.xhtml"/>
+                            </p:panel>
+                        </div>   
+                    </c:when>
+                </c:choose>
+
+
+
+
+
+                <c:choose>
+                    <c:when  test="#{sessionScope.validado != 'S'}">
+                        <center>
+                            <b><h1>Su cuenta aún no está activada</h1>
+                                <h3>Active su cuenta para acceder a esta sección</h3>
+                            </b>                            
+                        </center>                            
+                    </c:when>
+                </c:choose>                
+
+
+            </div>                        
+        </div>  
+
+        <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+            <!--<p:graphicImage name="/demo/images/ajaxloadingbar.gif" />-->
+            <img src="../../resources/gifs/cargando_2.gif" alt=""/>
+        </p:dialog>  
+        
+         
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,86 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"                
+                template="../../WEB-INF/template/template.xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:define name="content">
+        <h:form id="frmPrincipal">
+            <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+            <div class="ui-g">
+                <div class="ui-g-12">
+                    <div class="card">       
+                        <center><h3>Solicitudes por activar</h3></center>
+                        <p:dataTable id="tblCompras" var="compra" value="#{ctActivarCompras.lstCompras}" rows="10"
+                                     paginator="true"  emptyMessage="No tiene solicitudes pendientes." 
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="5,10,15" reflow="true" rowKey="#{compra.idCompra}"
+                                     selection="#{ctActivarCompras.compraSel}" selectionMode="single">
+
+                            <p:column headerText="Fecha de compra" width="7%" style="text-align: center">
+                                <p:outputLabel value="#{compra.fechaRegistro}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss"/>
+                                </p:outputLabel>
+                            </p:column>
+
+                            <p:column headerText="Fecha de solicitud" width="7%" style="text-align: center">
+                                <p:outputLabel value="#{compra.fechaSolicitud}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss"/>
+                                </p:outputLabel>
+                            </p:column>
+
+                            <p:column headerText="PIF" width="10%" style="text-align: center">
+                                <p:outputLabel value="#{compra.cuenta.pif.pif}"/>
+                            </p:column>
+                            
+                            <p:column headerText="Cliente" width="15%" style="text-align: center">
+                                <p:outputLabel value="#{compra.cuenta.persona.apellidos} #{compra.cuenta.persona.nombres}"/>
+                            </p:column>
+
+                            <p:column headerText="Valor compra" width="5%" style="text-align: center">
+                                <p:outputLabel value="#{compra.valorCompra} USD"/>
+                            </p:column>
+
+                            <p:column headerText="Forma de Pago" width="10%" style="text-align: center">
+                                <p:outputLabel value="#{compra.formaPago.formaPago}"/>
+                            </p:column>
+
+                            <p:column headerText="Estado de la compra" width="10%" style="text-align: center">
+                                <p:outputLabel value="#{compra.estadoCompra.estado}"/>
+                            </p:column>
+
+                            <p:column headerText="Comprobante" width="15%" style="text-align: center">
+                                <p:lightBox >  
+                                    <h:outputLink value="#" title="#{compra.comprobante}">  
+                                        <h:outputText value="#{compra.comprobante}"/>
+                                    </h:outputLink>
+                                    <f:facet name="inline">
+                                        <p:media value="#{compra.comprobante}" height="600" width="800" />                  
+                                    </f:facet>
+                                </p:lightBox>
+                            </p:column>
+
+                            <p:column headerText="Activar" width="3%" style="text-align: center">
+                                <p:commandButton title="Activar compra"
+                                                 icon="ui-icon-check-box"
+                                                 onclick="PF('dlgActivarCompra').show();"
+                                                 update="frmActivar">
+                                    <f:setPropertyActionListener value="#{compra}" target="#{ctActivarCompras.compraSel}"/>
+                                </p:commandButton>
+                            </p:column>
+
+                        </p:dataTable>
+
+                    </div>                        
+                </div>                        
+            </div>  
+        </h:form>
+
+        <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+            <!--<p:graphicImage name="/demo/images/ajaxloadingbar.gif" />-->
+            <img src="../../resources/gifs/cargando_2.gif" alt=""/>
+        </p:dialog>
+        <ui:include src="dlgActivarCompra.xhtml"/> 
+    </ui:define>
+</ui:composition>

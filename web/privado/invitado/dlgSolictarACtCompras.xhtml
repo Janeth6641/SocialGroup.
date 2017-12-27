@@ -1,0 +1,43 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <p:dialog id="dlgSolicitarAct" widgetVar="dlgSolicitarAct" closable="false" modal="true" resizable="true" 
+              header="Solicitar activación de su compra" showEffect="size" hideEffect="size">
+
+        <h:form id="frmSolicitarAct">    
+            <b>id compra: #{ctSolicitudActivCompras.compraSel.idCompra}</b>
+
+            <center>
+                <b>Adjuntar el comprobante de pago</b>
+                <p:panelGrid id="pngSubirArchivo" columns="2" style="width: 510px;" styleClass="ui-panelgrid-blank form-group">
+                    <p:fileUpload fileUploadListener="#{ctSolicitudActivCompras.cargarArchivoDocumento}"
+                                  allowTypes="/(\.|\/)(pdf|doc?x|odt)$/" label="Abrir" mode="advanced"  
+                                  update="pngSubirArchivo,pngDatos" uploadLabel="Subir" cancelLabel="Cancelar"   
+                                  value="#{ctSolicitudActivCompras.archivoDocumento}"
+                                  required="true" requiredMessage="Cargar Documento!!" />                                                              
+                </p:panelGrid>
+
+                <p:panelGrid id="pngDatos" columns="2" styleClass="ui-panelgrid-blank form-group">
+                    <p:outputLabel value="Documento:"/>
+                    <p:outputLabel id ="txtRutaDocumento" value="#{ctSolicitudActivCompras.nombreDocumento}"/>
+                </p:panelGrid>
+
+
+
+
+                <p:commandButton value="Aceptar"                             
+                                 icon="ui-icon-save"
+                                 action="#{ctSolicitudActivCompras.enviarSolicitud()}"
+                                 update="frmPrincipal:tblCompras,frmSolicitarAct"/>
+                <p:commandButton value="Cancelar"                             
+                                 onclick="PF('dlgSolicitarAct').hide();"
+                                 process="@this"
+                                 icon="ui-icon-close"/> 
+            </center>
+        </h:form>
+    </p:dialog>
+</ui:composition>
